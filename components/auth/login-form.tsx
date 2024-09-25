@@ -18,6 +18,7 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { FormError } from "../formError";
 import { FormSuccess } from "../formSuccess";
+import {login} from "@/actions/login"
 
 const LoginForm = () => {
   const form = useForm<z.infer<typeof LoginSchema>>({
@@ -29,7 +30,8 @@ const LoginForm = () => {
   });
 
   const onSubmit = (values: z.infer<typeof LoginSchema>) => {
-    console.log(values);
+    {/* get data from client to sever */}
+    login(values)
   };
 
   return (

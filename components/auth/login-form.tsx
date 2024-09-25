@@ -17,6 +17,7 @@ import { CardWrapper } from "./card-wrapper";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { FormError } from "../formError";
+import { FormSuccess } from "../formSuccess";
 
 const LoginForm = () => {
   const form = useForm<z.infer<typeof LoginSchema>>({
@@ -27,10 +28,9 @@ const LoginForm = () => {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof LoginSchema>)=> {
+  const onSubmit = (values: z.infer<typeof LoginSchema>) => {
     console.log(values);
-    
-  }
+  };
 
   return (
     <CardWrapper
@@ -69,7 +69,11 @@ const LoginForm = () => {
               )}
             />
           </div>
-          <FormError messages="Something went wrong!" />
+
+          {/* error and success fields are added */}
+          <FormError messages="" />
+          <FormSuccess messages="" />
+
           <Button type="submit" className="w-full">
             Login
           </Button>

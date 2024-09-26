@@ -1,6 +1,7 @@
 "use client";
 
 import * as z from "zod";
+import { useTransition, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginSchema } from "@/schemas";
@@ -18,9 +19,13 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { FormError } from "../formError";
 import { FormSuccess } from "../formSuccess";
-import {login} from "@/actions/login"
+import { login } from "@/actions/login";
 
 const LoginForm = () => {
+  const [isPending, setTransition] = useTransition();
+  const [error, setError] = useState<string | undefined>("");
+  const [success, setSuccess] = useState<string | undefined>("");
+
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -30,8 +35,19 @@ const LoginForm = () => {
   });
 
   const onSubmit = (values: z.infer<typeof LoginSchema>) => {
-    {/* get data from client to sever */}
-    login(values)
+    {
+      /* get data from client to sever */
+      /*also set the error and success states*/
+    }
+    setError("");
+    setSuccess("");
+
+    setTransition(() => {
+      login(values).then((data) => {
+        setError(data.error);
+        setSuccess(data.success);
+      });
+    });
   };
 
   return (
@@ -51,7 +67,7 @@ const LoginForm = () => {
                 <FormItem>
                   <FormLabel>Emali</FormLabel>
                   <FormControl>
-                    <Input {...field} type="email" />
+                    <Input {...field} disabled={isPending} type="email" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -64,7 +80,7 @@ const LoginForm = () => {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input {...field} type="password" />
+                    <Input {...field} disabled={isPending} type="password" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -73,10 +89,10 @@ const LoginForm = () => {
           </div>
 
           {/* error and success fields are added */}
-          <FormError messages="" />
-          <FormSuccess messages="" />
+          <FormError messages={error} />
+          <FormSuccess messages={success} />
 
-          <Button type="submit" className="w-full">
+          <Button type="submit" disabled={isPending} className="w-full">
             Login
           </Button>
         </form>

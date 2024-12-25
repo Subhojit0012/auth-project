@@ -14,13 +14,12 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return ( 
+  return (
     <html lang="en">
       <body>
         {children}
         <h1>Root layout file from app folder</h1>
       </body>
     </html>
-   );
+  );
 }
- 

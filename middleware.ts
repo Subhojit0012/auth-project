@@ -1,9 +1,15 @@
-import { auth } from "@/auth"
+
+import authConfig from "./auth.config"
+import NextAuth from "next-auth"
  
-export default auth((req) => {
-  console.log(req.nextUrl.pathname)
-})
- 
+const {auth} = NextAuth(authConfig)
+
+export default auth((req)=> {
+  const isLoggedIn = !!req.auth
+  console.log("ROUTE: ", req.nextUrl.pathname)
+  console.log("isLoggedIn: ", isLoggedIn)
+}) 
+
 // Optionally, don't invoke Middleware on some paths
 export const config = {
     matcher: [

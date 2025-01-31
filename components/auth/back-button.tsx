@@ -21,7 +21,7 @@ const BackButton = ({lable, href}:BackButtonProps) => {
                 {lable}
             </Link>
         </Button>
-     );
+    );
 }
- 
+
 export default BackButton;
